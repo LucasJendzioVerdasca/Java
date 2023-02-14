@@ -1,1 +1,92 @@
+import java.util.Scanner;
+import java.lang.Math;
 
+public class App {
+    public static void main(String[] args) throws Exception {
+        discriminant();
+    }
+
+
+    public static void discriminant(){
+        // Import du scanner//
+        try(Scanner sc = new Scanner(System.in)) {
+            // Déclaration des variables//
+            System.out.println("Quelle est la valeur de a ?");
+            int a = sc.nextInt();
+            System.out.println("Quelle est la valeur de b ?");
+            int b = sc.nextInt();
+            System.out.println("Quelle est la valeur de c ?");
+            int c = sc.nextInt();
+
+            // Calcul du discriminant//
+            int delta = (b*b)-(4*a*c);
+            System.out.println("Le discriminant est de " + delta + ".");
+
+            //cas delta négatif//
+            if (delta < 0) {
+                System.out.println("Il n'y a pas de solution.");
+            } 
+            
+            //cas delta nul//
+            else if (delta == 0) {
+                System.out.println("Il y a une solution.");
+                int x = -b/(2*a);
+                System.out.println("La racine de ce polynôme est égale à" + x + ".");
+            }
+            
+            //cas delta positif//
+            else {
+                System.out.println("Il y a deux solutions.");
+                int x1 = (int) (-b + Math.sqrt(delta)/(2*a));
+                int x2 = (int) (-b - Math.sqrt(delta)/(2*a));
+                System.out.println("Les racines de ce polynôme sont égales à " + x1 + " et " + x2 + ".");
+            }
+        }
+    }
+
+    public static void max(){
+        // Import du scanner//
+        try(Scanner sc = new Scanner(System.in)) {
+
+            // Déclaration des variables//
+            System.out.println("Veuillez entrer un premier entier :");
+            int a = sc.nextInt();
+            System.out.println("Veuillez entrer un second entier :");
+            int b = sc.nextInt();
+
+            // Calcul de l'extremum//
+            if (a > b) {
+                System.out.println("Le maximum entre ces deux valeurs est de "+ a +".");
+            }
+            else if (a < b) {
+                System.out.println("Le maximum entre ces deux valeurs est de "+ b +".");
+            }
+            else {
+                System.out.println("Les deux valeurs sont égales.");
+            }
+        }
+    }
+
+    public static void min(){
+        // Import du scanner//
+        try(Scanner sc = new Scanner(System.in)) {
+
+            // Déclaration des variables//
+            System.out.println("Veuillez entrer un premier entier :");
+            int a = sc.nextInt();
+            System.out.println("Veuillez entrer un second entier :");
+            int b = sc.nextInt();
+
+            // Calcul de l'extremum//
+            if (a < b) {
+                System.out.println("Le minimum entre ces deux valeurs est de "+ a +".");
+            }
+            else if (a > b) {
+                System.out.println("Le minimum entre ces deux valeurs est de "+ b +".");
+            }
+            else {
+                System.out.println("Les deux valeurs sont égales.");
+            }
+        }
+    }
+}
