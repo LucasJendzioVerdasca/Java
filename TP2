@@ -1,0 +1,62 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        parite();
+    }
+
+    public static void discriminant() {
+        try (Scanner sc = new Scanner(System.in)) {
+            System.out.println("Quelle est la valeur de a ?");
+            int a = sc.nextInt();
+            System.out.println("Quelle est la valeur de b ?");
+            int b = sc.nextInt();
+            System.out.println("Quelle est la valeur de c ?");
+            int c = sc.nextInt();
+            int delta = (int) (Math.pow(b, 2) - 4 * a * c);
+            if (delta < 0) {
+                System.out.println("Il y a deux solutions imaginaires de valeurs x1 = " + (-b / (2 * a)) + " + "
+                        + (Math.sqrt(-delta) / (2 * a)) + "i et x2 = " + (-b / (2 * a)) + " - "
+                        + (Math.sqrt(-delta) / (2 * a)) + "i.");
+            } else if (delta == 0) {
+                System.out.println("Il y a une solution");
+                int x = -b / (2 * a);
+                System.out.println("La racine du trinôme est de valeur x = " + x + ".");
+            } else {
+                System.out.println("Il y a deux solutions");
+                int x1 = (int) ((-b + Math.sqrt(delta)) / (2 * a));
+                int x2 = (int) ((-b - Math.sqrt(delta)) / (2 * a));
+                System.out.println("Les racines du trinôme sont de valeur x1 = " + x1 + " et x2 = " + x2 + ".");
+            }
+        }
+    }
+
+    public static void parite() {
+        try (Scanner sc = new Scanner(System.in)) {
+            System.out.println("Quelle est la valeur de a ?");
+            int a = sc.nextInt();
+            if (a % 2 == 0) {
+                System.out.println("Le nombre " + a + " est pair");
+            } else {
+                System.out.println("Le nombre " + a + " est impair");
+            }
+        }
+    }
+
+    public static void max() {
+        try (Scanner sc = new Scanner(System.in)) {
+            System.out.println("Saississez deux nombres entiers :");
+            int a = sc.nextInt();
+            int b = sc.nextInt();
+
+            // Détermination du maximum
+            int max = Math.max(a, b);
+            System.out.println("Le plus grand des deux nombres est " + max + ".");
+
+            // Détermination du minimum
+            int min = Math.min(a, b);
+            System.out.println("Le plus petit des deux nombres est " + min + ".");
+        }
+
+    }
+}
