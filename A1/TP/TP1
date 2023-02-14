@@ -1,1 +1,55 @@
+import java.util.Scanner;
 
+public class Main {
+    public static void main(String[] args) {
+        division();
+    }
+
+    public static void prenom() {
+        try (Scanner sc = new Scanner(System.in)) {
+            System.out.println("Quel est votre prénom ?");
+            String prenom = sc.nextLine();
+            System.out.println("Bonjour " + prenom + " !");
+        }
+    }
+
+    public static void somme() {
+        try (Scanner sc = new Scanner(System.in)) {
+            System.out.println("Entrez le premier entier :");
+            int premierEntier = sc.nextInt();
+            System.out.println("Entrez le deuxième entier :");
+            int deuxiemeEntier = sc.nextInt();
+            int somme = premierEntier + deuxiemeEntier;
+            System.out.println(
+                    "La somme de " + premierEntier + " et de " + deuxiemeEntier + " est égale à : " + somme + " !");
+        }
+    }
+
+    public static void division() {
+        try (Scanner sc = new Scanner(System.in)) {
+            System.out.println("Entrez le premier entier :");
+            int premierEntier = sc.nextInt();
+            System.out.println("Entrez le deuxième entier :");
+            int deuxiemeEntier = sc.nextInt();
+            int division = premierEntier / deuxiemeEntier;
+            System.out.println(
+                    "La division de " + premierEntier + " par " + deuxiemeEntier + " est égale à : " + division + " !");
+        } catch (Exception e) {
+            System.out.println("Erreur : " + e.getMessage()
+                    + "En gros, si tu veux essayer de diviser par 0, bah t'es une merde fréro");
+        }
+    }
+
+    public static void volume() {
+        try (Scanner sc = new Scanner(System.in)) {
+            System.out.println("Entrez la longueur :");
+            int longueur = sc.nextInt();
+            System.out.println("Entrez la largeur :");
+            int largeur = sc.nextInt();
+            System.out.println("Entrez la hauteur :");
+            int hauteur = sc.nextInt();
+            int volume = longueur * largeur * hauteur;
+            System.out.println("Le volume du pavé droit est égal à : " + volume + " !");
+        }
+    }
+}
