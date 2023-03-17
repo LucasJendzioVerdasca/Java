@@ -8,4 +8,16 @@ public class Wand {
         this.core = Core.generateRandomCore();
         this.size = size;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public Core getCore() {
+        return core;
+    }
+
+    public float getSize() {
+        return size;
+    }
 }

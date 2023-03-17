@@ -1,26 +1,16 @@
-package Spell;
-import java.util.ArrayList;
-import java.util.List;
 
+
+
+@Getter
 public class ForbiddenSpell extends AbstractSpell {
-   super(name, power, description, LevelofUnlocking, magicCost, Use);
-   private int corruption;
+    private String corruption;
 
-   private List<String> forbiddenSpells = new ArrayList<String>();
-   
-   public ForbiddenSpell() {
-      forbiddenSpells.add("Avada Kedavra");
-      forbiddenSpells.add("Endoloris");
-      forbiddenSpells.add("Impero");
-   }
-   
-   public List<String> getForbiddenSpells() {
-      return forbiddenSpells;
-   }
+    public ForbiddenSpell(String name, int magicCost, int power,  String corruption) {
+        super(name, magicCost, power);
+        this.corruption = corruption;
+    }
 
-   @Override
-   public void castSpell(Character target) {
-      // TODO Auto-generated method stub
-      throw new UnsupportedOperationException("Unimplemented method 'castSpell'");
-   }
+    public String castSpell(String spellName, Wizard wizard){
+       return "";
+    }
 }

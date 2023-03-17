@@ -8,4 +8,16 @@ public class Potion {
         this.description = description;
         this.power = power;
     }
+
+    public String getName() {
+        return name;
+    }
+    
+    public String getDescription() {
+        return description;
+    }
+
+    public int getPower() {
+        return power;
+    }
 }
