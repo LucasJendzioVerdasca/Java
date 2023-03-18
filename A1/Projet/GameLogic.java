@@ -56,7 +56,7 @@ public class GameLogic {
         printSeparator(40);
         printSeparator(30);
         System.out.println("Bienvenue dans le jeu de sorcier le plus cool du monde");
-        System.out.println("Crée par Jendzio-Verdasca");
+        System.out.println("Crée par Jendzio-Verdasca Lucas");
         System.out.println("Scénarisé par Antoine Guérard (merci à lui)");
         printSeparator(30);
         printSeparator(40);
