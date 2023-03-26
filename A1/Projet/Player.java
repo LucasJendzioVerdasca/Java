@@ -1,16 +1,19 @@
 public class Player extends Wizard{
     //Variables / Attributs d'un joueur
-    public int numATKupgrades, numDEFupgrades, numMAGupgrades;
+    public House house;
 
     //Constructeur
     public Player(String name) {
         super(name, 100, 0, 100, 100);
     }
 
-    @Override
-    public int attack() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'attack'");
+    //getters/setters
+    public House getHouse() {
+        return house;
+    }
+
+    public void setHouse(House house2) {
+        this.house = house2;
     }
 
     @Override

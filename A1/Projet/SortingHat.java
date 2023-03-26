@@ -2,8 +2,10 @@ import java.util.Scanner;
 
 public class SortingHat {
 
-    public static void main(String[] args) {
-        try (// Création d'un scanner pour lire les réponses de l'utilisateur
+    public static void Sortinghat() {
+
+        // Création d'un scanner pour lire les réponses de l'utilisateur
+        try (
                 Scanner scanner = new Scanner(System.in)) {
             // Initialisation des compteurs pour chaque maison
             int gryffindor = 0;
@@ -17,10 +19,10 @@ public class SortingHat {
                     "Question 2: Comment réagissez-vous face à une situation difficile?",
                     "Question 3: Quelle est votre plus grande peur ?",
                     "Question 4: Comment préférez-vous passer votre temps libre ?",
-                    "Question 5: Quel est votre plus grand défaut ?",
-                    "Question 6: Quelle est votre plus grande qualité ?",
-                    "Question 7: Quel est votre plus grand rêve ?",
-                    "Question 8: Quelle est votre plus grande qualité ?",
+                    "Question 5: Quel est votre trait de caractère le plus marquant ?",
+                    "Question 6: Comment réagissez-vous face à une injustice ?",
+                    "Question 7: Quelle est votre plus grande ambition ?",
+                    "Question 8: Comment réagissez-vous face aux difficultés ?",
             };
 
             String[][] options = {
@@ -78,20 +80,20 @@ public class SortingHat {
             }
 
             // Détermination de la maison correspondante en fonction des points obtenus
-            String maison = "";
+            House house = null;
             int pointsMax = Math.max(Math.max(gryffindor, ravenclaw), Math.max(hufflepuff, slytherin));
             if (gryffindor == pointsMax) {
-                maison = "Gryffondor";
+                house = House.GRYFFINDOR;
             } else if (ravenclaw == pointsMax) {
-                maison = "Serdaigle";
+                house = House.RAVENCLAW;
             } else if (hufflepuff == pointsMax) {
-                maison = "Poufsouffle";
+                house = House.HUFFLEPUFF;
             } else if (slytherin == pointsMax) {
-                maison = "Serpentard";
+                house = House.SLYTHERIN;
             }
 
             // Affichage du résultat
-            System.out.println("Vous êtes dans la maison " + maison + " !");
+            System.out.println("Choixpeau : Je vois... Je vois... " + house.name() + " ! ");
         }
     }
 }
