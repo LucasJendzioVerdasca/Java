@@ -17,10 +17,6 @@ public abstract class AbstractSpell {
     public static final int MEDIUM_MAGIC_COST = 20;
     public static final int HIGH_MAGIC_COST = 30;
 
-    // Méthode castSpell() abstraite
-    public String castSpell(Spell spell || ForbiddenSpell forbiddenSpell, Wizard wizard) {
-        return null;
-    }    @Override
     
     public String toString() {
         return "Name: " + name + ", Magic Cost: " + magicCost + ", Power: " + power;

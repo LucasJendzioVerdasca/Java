@@ -4,7 +4,10 @@ public enum House {
     RAVENCLAW("Serdaigle"),
     SLYTHERIN("Serpentard");
 
-    House(String name){
+    House(String name) {
+    }
+
+    public static String getHouseName(House house) {
+        return house.name();
     }
 }
-

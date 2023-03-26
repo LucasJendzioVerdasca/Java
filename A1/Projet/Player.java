@@ -1,6 +1,8 @@
 public class Player extends Wizard{
+    public int currentHealth;
     //Variables / Attributs d'un joueur
     public House house;
+    public int numATKupgrades, numDEFupgrades, numMAGupgrades;
 
     //Constructeur
     public Player(String name) {
@@ -8,18 +10,23 @@ public class Player extends Wizard{
     }
 
     //getters/setters
+    public void setHouse(House house) {
+        this.house = house;
+    }
+
     public House getHouse() {
         return house;
     }
 
-    public void setHouse(House house2) {
-        this.house = house2;
+    @Override
+    public int attack() {
+        // TODO Auto-generated method stub
+        return (int) (Math.random()*(this.numATKupgrades + 3 + this.level));
     }
 
     @Override
     public int defend() {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'defend'");
+        return (int) (Math.random()*(this.numDEFupgrades + 3 + this.level));
     }
-
 }

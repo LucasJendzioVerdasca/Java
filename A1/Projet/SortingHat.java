@@ -2,7 +2,12 @@ import java.util.Scanner;
 
 public class SortingHat {
 
-    public static void Sortinghat() {
+    public static void Sortinghat(Player player) {
+
+        if (player == null) {
+            System.out.println("Erreur : joueur n'est pas défini.");
+            return;
+        }
 
         // Création d'un scanner pour lire les réponses de l'utilisateur
         try (
@@ -92,8 +97,10 @@ public class SortingHat {
                 house = House.SLYTHERIN;
             }
 
+            player.setHouse(house);
+
             // Affichage du résultat
-            System.out.println("Choixpeau : Je vois... Je vois... " + house.name() + " ! ");
+            System.out.println("Choixpeau : Je vois... Je vois... " + House.getHouseName(house) + " ! ");
         }
     }
 }
