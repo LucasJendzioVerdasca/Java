@@ -141,32 +141,24 @@ public class GameLogic {
         }
     }
 
-    //methode pour la mort du jouer (à faire)
-    public static void playerDied(){
-        clearConsole();
-        printHeading("You died ... dommage frerot");
-    }
-
-
-
-    //methode pour le systeme de combat
+    // methode pour le systeme de combat
     public static void Battle(Ennemy ennemy){
         while (true){
             clearConsole();
             printHeading(ennemy.name + "\nHP: " + ennemy.currentHealth + "/" + ennemy.maxHealth);
             printHeading(player.name + "\nHP: " + player.currentHealth + "/" + ennemy.maxHealth);
             printSeparator(20);
-            System.out.println("(1) Attack\n(2) Cast Spell");
+            System.out.println("(1) Attaquer\n(2) Utiliser un sorts\n(3) Utilise une potion\n(4) FUIS SI TU TIENS A LA VIE");
             int input = readInt("-> ", 2);
-            //react accordingly to player input
+            //réagit en fonction des inputs du joueur
             if(input == 1){
                 //auto-attack
-                //calculate dmg and dmgTook (dmg ennemy deals to player)
+                //calcule les dégâts infligés et subis 
                 int dmg = player.attack() - ennemy.defend();
                 int dmgTook = ennemy.attack() - player.defend();
-                //check that dmg and dmgTook isn't negative
+                //Vérfiie si les dégâts ne sont pas négatifs
                 if(dmgTook < 0){
-                    //add some dmg if player defends very well
+                    //Ajoute des dégâts si le joueur se défend bien
                     dmg -= dmgTook/2;
                     dmgTook = 0;
                 }
@@ -174,33 +166,45 @@ public class GameLogic {
                     dmg = 0;
                 }
 
-                //apply dmg to each characters
+                //Applique les dégâts aux différents personnages
                 player.currentHealth -= dmgTook;
                 ennemy.currentHealth -= dmg;
-                //print result
+                //affiche le résultat
                 clearConsole();
-                printHeading("Auto-attack");
-                System.out.println("You dealt " + dmg + " damage to the " + ennemy.name +".");
+                printHeading("Stuperfix");
+                System.out.println("Tu as infligé " + dmg + " points de dégâts à l'autre connard de " + ennemy.name +".");
                 printSeparator(15);
-                System.out.println("The " + ennemy.name + " dealt " + dmgTook + " damage to you.");
+                System.out.println("Le " + ennemy.name + " t'a infligé " + dmgTook + " points de dégâts.");
                 anythingToContinue();
-                //check if someone's dead
+                //Vérifie si un des personnages meurt
                 if(player.currentHealth <= 0){
                     playerDied();
                     break;
                 }else if(ennemy.currentHealth <= 0){
-                    //the player won
+                    //le joueur gagne
                     clearConsole();
-                    printHeading("You defeated the " + ennemy.name + "!");
+                    printHeading("Bravo fréro, tu as battu " + ennemy.name + "!");
                     //ajouter systeme de recompense
                     anythingToContinue();
                     break;
                 }
-            }else{
+            }else if(input == 2){
                 //cast a spell
                 //faut implémenter
-
+            }else if(input == 3){
+                //use a potion
+                //faut implémenter
+            }else if(input == 4){
+                //Esquive
+                clearConsole();
+                //Une probabilité de 35% d'esquiver 
+                if(Math.random() < 0.35){
+                    printHeading("Tu as réussi à esquiver");
+                    anythingToContinue();
+                    break;
+                //faut implémenter
+                }
             }
         }
     }
-}   
+}
