@@ -1,5 +1,5 @@
 public class Story {
-        public static void printIntro() {
+        public static void printIntro() {                
                 // Introduction à l'histoire
                 GameLogic.clearConsole();
                 GameLogic.printSeparator(30);
@@ -68,7 +68,6 @@ public class Story {
                 GameLogic.anythingToContinue();
                 GameLogic.printSeparator(30);
                 GameLogic.clearConsole();
-                SortingHat.Sortinghat();
         }
 
         public static void FirstActIntro() {

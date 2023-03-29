@@ -6,7 +6,7 @@ public abstract class Wizard {
     public int xp, level;
 
     //Constructeur
-    protected Wizard(String name, int maxHealth, int xp, int maxMagic, int magic) {
+    protected Wizard(String name, int maxHealth, int currentHealth, int xp, int maxMagic, int magic) {
         this.name = name;
         this.maxHealth = maxHealth;
         this.currentHealth = maxHealth;
@@ -14,4 +14,5 @@ public abstract class Wizard {
         this.maxMagic = maxMagic;
         this.magic = magic;
     }
+
 }

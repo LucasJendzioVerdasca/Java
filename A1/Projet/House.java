@@ -1,13 +1,17 @@
-public enum House {
+enum House {
     GRYFFINDOR("Griffondor"),
     HUFFLEPUFF("Poufsouffle"),
     RAVENCLAW("Serdaigle"),
     SLYTHERIN("Serpentard");
 
-    House(String name) {
+    private String name;
+
+    // getter
+    public String getName() {
+        return name;
     }
 
-    public static String getHouseName(House house) {
-        return house.name();
+    House(String name) {
+        this.name = name;
     }
 }

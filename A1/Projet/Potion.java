@@ -1,23 +1,31 @@
 public class Potion {
+    public enum PotionType {
+        HEALTH,
+        MAGIC
+    }
+
     private String name;
-    private String description;
-    private int power;
-    
-    public Potion(String name, String description, int power) {
+    private PotionType type;
+
+    public Potion(String name, PotionType type) {
         this.name = name;
-        this.description = description;
-        this.power = power;
+        this.type = type;
     }
 
     public String getName() {
         return name;
     }
-    
-    public String getDescription() {
-        return description;
-    }
 
-    public int getPower() {
-        return power;
+    public void use(Player player) {
+        switch (type) {
+            case HEALTH:
+                player.currentHealth = player.getMaxHealth();
+                System.out.println("La vie a été entièrement restaurée !");
+                break;
+            case MAGIC:
+                player.magic = player.getMaxMagic();
+                System.out.println("La magie a été entièrement restaurée !");
+                break;
+        }
     }
 }

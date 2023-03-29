@@ -1,9 +1,8 @@
 import java.util.Scanner;
 
 public class SortingHat {
-
     public static void Sortinghat(Player player) {
-
+        // Vérification que le joueur est défini
         if (player == null) {
             System.out.println("Erreur : joueur n'est pas défini.");
             return;
@@ -63,6 +62,8 @@ public class SortingHat {
                 }
 
                 String response = scanner.nextLine().toLowerCase();
+                GameLogic.clearConsole();
+                GameLogic.printSeparator(30);
 
                 switch (response) {
                     case "a":
@@ -100,7 +101,7 @@ public class SortingHat {
             player.setHouse(house);
 
             // Affichage du résultat
-            System.out.println("Choixpeau : Je vois... Je vois... " + House.getHouseName(house) + " ! ");
+            System.out.println("Choixpeau : Je vois... Je vois... " + house.getName() + " ! ");
         }
     }
 }
