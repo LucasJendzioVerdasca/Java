@@ -1,4 +1,4 @@
-    import java.util.ArrayList;
+ import java.util.ArrayList;
     import java.util.List;
 
     public class Spell extends AbstractSpell {
@@ -18,6 +18,35 @@
             spells.add(new Spell("Sectumsempra", HIGH_MAGIC_COST, 50));
 
             return spells;
+        }
+
+
+        public String getName(){
+            return this.name;
+        }
+
+        public int getPower(){
+            return this.spell;
+        }
+
+        public int getMagicCost(){
+            return this.magicCost;
+        }
+        
+
+
+        
+        public void castSpellEffect(Ennemy ennemy){
+            if (this.name == "Expelliarmus"){
+                ennemy.attack -= 5;
+            }else if(this.name == "Stupefix"){
+                ennemy.stunt = true;
+            }
+        }
+
+        public List<Spell> learnSpell(Wizard wiz, Spell newSpell){
+            wiz.knownSpells.add(newSpell);
+            return wiz.knownSpells;
         }
 
 
