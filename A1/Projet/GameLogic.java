@@ -8,6 +8,9 @@ public class GameLogic {
     static Player player;
 
     public static boolean isRunning;
+    
+    //L'année en cours dans le jeu
+    public static int chapter = 1;
 
     // méthode pour attendre une entrée de l'utilisateur
     public static int readInt(String prompt, int userchoice) {
@@ -98,48 +101,44 @@ public class GameLogic {
         gameLoop();
     }
 
+    //La boucle de jeu
+    public static void checkAct(){
+        if (player.xp >= 100 && player.xp < 200){
+            chapter = 2;
+            Story.FirstActOutro();
+        }
+        if (player.xp >= 200 && player.xp < 300){
+            chapter = 3;
+            Story.SecondActOutro();
+        }
+        if (player.xp >= 300 && player.xp < 400){
+            chapter = 4;
+            Story.ThirdActOutro();
+        }
+        if (player.xp >= 400 && player.xp < 500){
+            chapter = 5;
+            Story.FourthActOutro();
+        }
+        if (player.xp >= 500 && player.xp < 600){
+            chapter = 6;
+            Story.FifthActOutro();
+        }
+        if (player.xp >= 600 && player.xp < 700){
+            chapter = 7;
+            Story.SixthActOutro();
+        }
+        if (player.xp >= 700){
+            Story.SeventhActOutro();
+        }
+    }
+
     // Méthode pour continuer l'aventure
     public static void continueJourney() {
         clearConsole();
         printHeading("Vous continuez votre aventure");
         anythingToContinue();
-        switch (act) {
-            case 1 : 
-                Story.FirstActIntro();
-                Battle(Troll);
-                Story.FirstActOutro();
-                break;
-            case 2 :
-                Story.SecondActIntro();
-                Battle(Basilic);
-                Story.SecondActOutro();
-                break;
-            case 3 :
-                Story.ThirdActIntro();
-                Battle(Dementor);
-                Story.ThirdActOutro();
-                break;
-            case 4 : 
-                Story.FourthActIntro();
-                Battle(Voldemort_1);
-                Story.FourthActOutro();
-                break;
-            case 5 :
-                Story.FifthActIntro();
-                Battle(Dolores);
-                Story.FifthActOutro();
-                break;
-            case 6 :
-                Story.SixthActIntro();
-                Battle(Mangemorts);
-                Story.SixthActOutro();
-                break;
-            case 7 :
-                Story.SeventhActIntro();
-                Battle(Voldemort_2);
-                Story.SeventhActOutro();
-                break;
-        }  
+        clearConsole();
+        checkAct();
     }
 
     //Le magasin
@@ -193,6 +192,7 @@ public class GameLogic {
         System.out.println("Vie : " + player.currentHealth + "/" + player.maxHealth);
         System.out.println("Magie : " + player.magic + "/" + player.maxMagic);
         System.out.println("XP : " + player.xp);
+        System.out.println("Thunasse" + player.gold + " pièces d'or");
         anythingToContinue();
     }
 
@@ -239,72 +239,148 @@ public class GameLogic {
     public static void playerDied() {
         clearConsole();
         printHeading("You died ... dommage frerot");
+        anythingToContinue();
+        isRunning = false;
     }
 
-    // methode pour le systeme de combat
-    public static void Battle(Ennemy ennemy){
-        while (true){
+    //methode pour le tour du joueur
+    public static void BattlePlayerTurn(Ennemy ennemy){
+        clearConsole();
+        //On remet le booléen d'esquive à false
+        player.dodge = false;
+        printHeading(ennemy.name + "\nHP: " + ennemy.currentHealth + "/" + ennemy.maxHealth);
+        printHeading(player.name + "\nHP: " + player.currentHealth + "/" + ennemy.maxHealth + "\nMagic:" + player.magic + "/" + player.maxMagic);
+        printSeparator(20);
+        System.out.println("(1) Attaquer\n(2) Utiliser un sorts\n(3) Utiliser une potion\n(4) Esquiver");
+        int input = readInt("-> ", 4);
+        //réagit en fonction des inputs du joueur
+        if(input == 1){
+            //attaque basique
+            //calcule les dégâts infligés et subis 
+            int dmg = player.attack() - ennemy.defend();
+            //Vérifie si les dégâts ne sont pas négatifs
+            if(dmg < 0){
+                dmg = 0;
+            }
+            //Applique les dégâts
+            ennemy.currentHealth -= dmg;
+            //affiche le résultat
             clearConsole();
-            printHeading(ennemy.name + "\nHP: " + ennemy.currentHealth + "/" + ennemy.maxHealth);
-            printHeading(player.name + "\nHP: " + player.currentHealth + "/" + ennemy.maxHealth);
-            printSeparator(20);
-            System.out.println("(1) Attaquer\n(2) Utiliser un sorts\n(3) Utilise une potion\n(4) ESQUIVE SI TU TIENS A LA VIE");
-            int input = readInt("-> ", 2);
-            //réagit en fonction des inputs du joueur
-            if(input == 1){
-                //auto-attack
-                //calcule les dégâts infligés et subis 
-                int dmg = player.attack() - ennemy.defend();
-                int dmgTook = ennemy.attack() - player.defend();
-                //Vérfiie si les dégâts ne sont pas négatifs
-                if(dmgTook < 0){
-                    //Ajoute des dégâts si le joueur se défend bien
-                    dmg -= dmgTook/2;
-                    dmgTook = 0;
-                }
-                if(dmg < 0){
-                    dmg = 0;
-                }
-
-                //Applique les dégâts aux différents personnages
-                player.currentHealth -= dmgTook;
-                ennemy.currentHealth -= dmg;
-                //affiche le résultat
+            printHeading("Vous attaquez le " + ennemy.name + " avec un sort basique.");
+            System.out.println("Vous avez infligé " + dmg + " points de dégâts au " + ennemy.name +".");
+            anythingToContinue();
+            //Vérifie si l'ennemi meurt
+            if(!ennemy.isalive()){
+                //le joueur gagne
                 clearConsole();
-                printHeading("Stuperfix");
-                System.out.println("Tu as infligé " + dmg + " points de dégâts à l'autre connard de " + ennemy.name +".");
-                printSeparator(15);
-                System.out.println("Le " + ennemy.name + " t'a infligé " + dmgTook + " points de dégâts.");
+                printHeading("Vous avez vaincu le " + ennemy.name + "!");
+                //ajouter systeme de recompense
                 anythingToContinue();
-                //Vérifie si un des personnages meurt
-                if(player.currentHealth <= 0){
-                    playerDied();
-                    break;
-                }else if(ennemy.currentHealth <= 0){
-                    //le joueur gagne
-                    clearConsole();
-                    printHeading("Bravo fréro, tu as battu " + ennemy.name + "!");
-                    //ajouter systeme de recompense
-                    anythingToContinue();
-                    break;
-                }
-            }else if(input == 2){
-                //cast a spell
-                //faut implémenter
-            }else if(input == 3){
-                //use a potion
-                //faut implémenter
-            }else if(input == 4){
-                //Esquive
+            }
+        }else if(input == 2){
+            //lancer un sort
+            clearConsole();
+            //On demande au joueur quel sort il souhaite lancer
+            System.out.println("Choisissez quel sort lancer.");
+            for(int i=0; i<size(player.knownSpells); i++){
+                System.out.println("(" + i + ") \"" + player.knownSpells.get(i).getName() + "\" | Coût/Puissance:" + player.knownSpells.get(i).getMagicCost() + "/" + player.knownSpells.get(i)/getPower());
+            }
+            int choice = readInt("-> ", size(player.knownSpells));
+            //On vérifie que le joueur à assez de magie disponible pour lancer le sort
+            if(player.magic < player.knownSpells.get(choice).getMagicCost()){
+                System.out.println("Vous n'avez pas assez de magie pour lancer le sort");
+                anythingToContinue();
+                //si ce n'est pas le cas, on lui refais jouer son tour
+                BattlePlayerTurn(ennemy);
+                return;
+            }
+            //On calcule les dégats infligés
+            int dmgSpell = player.knownSpells.get(choice).getPower() - ennemy.def;
+            //On vérifie que les dégats sont positifs
+            if(dmgSpell < 0){
+                dmgSpell = 0;
+            }
+            //On applique les dégats à l'ennemi et on paie le coût en magie
+            ennemy.currentHealth -= dmgSpell;
+            player.magic -= player.knownSpells.get(choice).getMagicCost();
+            //affiche le résultat
+            clearConsole();
+            printHeading("Vous lancez \"" + player.knownSpells.get(choice).getName() + "\" sur le " + ennemy.name);
+            System.out.println("Vous avez infligé " + dmg + " points de dégâts au " + ennemy.name +".");
+            anythingToContinue();
+            //Vérifie si l'ennemi meurt
+            if(ennemy.isalive()){
+                //le joueur gagne
                 clearConsole();
-                //Une probabilité de 35% d'esquiver 
-                if(Math.random() < 0.35){
-                    printHeading("Tu as réussi à t'échapper");
-                    anythingToContinue();
-                    break;
-                //faut implémenter
-                }
+                printHeading("Vous avez vaincu le " + ennemy.name + "!");
+                //Les récompenses du joueur
+                System.out.println("Vous avez gagné 5 pièces d'or et 100 points d'expérience.");
+                player.gold += 5;
+                player.xp += 100;
+                anythingToContinue();
+            }
+            //On applique les effets du sort (étourdissement si stupefix et baisse d'attaque si expelliarmus)
+            player.knownSpells.get(choice).castSpellEffect(ennemy);
+            anythingToContinue();
+        }else if(input == 3){
+            //use a potion
+            //faut implémenter
+        }else if(input == 4){
+            //Esquive
+            clearConsole();
+            //Une probabilité de 35% d'esquiver 
+            if(Math.random() < 0.35){
+                printHeading("Vous vous concentrez afin d'esquiver la prochaine attaque du " + ennemy.name + ".");
+                player.dodge = true;
+                anythingToContinue();
+            }else{
+                printHeading("Vous essayez de prévoir la prochaine attaque du " + ennemy.name + " mais sans succés.");
+                anythingToContinue();
             }
         }
+    }
+
+
+    //methode pour le tour de l'ennemi
+    public static void BattleEnemyTurn(Ennemy ennemy){
+        //L'ennemi ne joue que s'il n'est pas étourdi
+        if(ennemy.stunt = false){
+            System.out.println("Le " + ennemy.name + " vous attaque!");
+            //On calcule les dégats que le monstre va infliger
+            int dmgTook = ennemy.attack() - player.defend();
+            //On vérifie que les dégats sont bien positifs et si le joueur esquive ou non
+            if(dmgTook < 0){
+                dmgTook = 0;
+            }
+            if(player.dodge == true){
+                System.out.println("Vous esquiver l'attaque de " + ennemy.name + ".");
+                dmgTook = 0;
+            }
+            //On applique les dégats
+            player.currentHealth -= dmgTook;
+            System.out.println("Le " + ennemy.name + " t'a infligé " + dmgTook + " points de dégâts.");
+            anythingToContinue();
+            //On vérifie si le joueur est mort
+            if(!player.isalive()){
+                    playerDied();
+            }
+        }else{
+            System.out.println("Le " + ennemy.name + " est étourdi, il n'a pas pu attaquer.");
+            ennemy.stunt = false;
+        }
+        //On remet l'attaque de l'ennemi à sa valeur normale
+        ennemy.attack = ennemy.baseAttack;
+    }
+
+
+    //méthode pour dérouler les bataille
+    public static void Battle(Ennemy ennemy){
+        clearConsole();
+        System.out.println("Un " + ennemy.name + " sauvage apparaît!");
+        do{
+            BattlePlayerTurn(ennemy);
+            BattleEnemyTurn(ennemy);
+        }while(player.currentHealth > 0 && ennemy.currentHealth > 0);
+        //ajouter systeme de recompense (ici ou lorsque l'ennemi meurt dans la méthode BattlePLayerTurn)
     }
 }

@@ -1,5 +1,5 @@
 public abstract class AbstractSpell {
-    private String name;
+    protected String name;
     private int magicCost;
     private int power;
 
