@@ -1,20 +1,23 @@
 public class Ennemy {
     
     public String name;
-    private int attack;
+    private int attack, baseAttack;
     public int def;
     public int magic;
     public int currentHealth;
     public int maxHealth;
+    public boolean stunt;
 
     //constructeurs
-    public Ennemy(String name, int baseattack, int basedef, int basemagic, int basehealth){
+    public Ennemy(String name, int attack, int def, int magic, int health){
         this.name = name;
-        this.attack = baseattack;
-        this.def = basedef;
-        this.magic = basemagic;
-        this.currentHealth = basehealth;
-        this.maxHealth = basehealth;
+        this.attack = attack;
+        this.baseAttack = attack;
+        this.def = def;
+        this.magic = magic;
+        this.currentHealth = health;
+        this.maxHealth = health;
+        this.stunt = false;
     }
 
     //Methodes pour attack et def
@@ -23,6 +26,6 @@ public class Ennemy {
     }
 
     public int defend(){
-        return (int) (Math.random()*(this.attack + 3));
+        return (int) (Math.random()*(this.def + 3));
     }
 }
