@@ -7,7 +7,7 @@ public class Player extends Wizard {
     int def = 4;
     // Constructeur
     public Player() {
-        super("Joueur", 100, 100, 0, 100);
+        super("Joueur", 100, 100, 0, 100, 5);
     }
 
      //Methodes pour attack et def

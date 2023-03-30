@@ -15,7 +15,6 @@ public class Spell extends AbstractSpell {
         spells.add(new Spell("Expecto Patronum", MEDIUM_MAGIC_COST, 10));
         spells.add(new Spell("Expelliarmus", MEDIUM_MAGIC_COST, 1));
         spells.add(new Spell("Sectumsempra", HIGH_MAGIC_COST, 50));
-
         return spells;
     }
 
@@ -34,5 +33,20 @@ public class Spell extends AbstractSpell {
     public List<Spell> learnSpell(Wizard wiz, Spell newSpell){
         wiz.knownSpells.add(newSpell);
         return wiz.knownSpells;
+    }
+
+
+    public int getMagicCost() {
+        return 0;
+    }
+
+
+    public int getPower() {
+        return 0;
+    }
+
+
+    public String getName() {
+        return null;
     }
 }

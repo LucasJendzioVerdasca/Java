@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Wizard {
@@ -10,14 +11,23 @@ public abstract class Wizard {
     public boolean dodge;
 
     //Constructeur
-    protected Wizard(String name, int maxHealth, int xp, int maxMagic, int magic) {
+    protected Wizard(String name, int maxHealth, int xp, int maxMagic, int magic, int power) {
         this.name = name;
         this.maxHealth = maxHealth;
         this.currentHealth = maxHealth;
         this.xp = xp;
         this.maxMagic = maxMagic;
         this.magic = magic;
-        this.knownSpells = .getKnownSpells();
+        this.knownSpells = new ArrayList<>();
         this.dodge = false;
+    }
+
+    //Knwon Spells ArrayList
+    public void addSpell(Spell spell) {
+        this.knownSpells.add(spell);
+    }
+    
+    ArrayList<Spell> getKnownSpells() {
+        return (ArrayList<Spell>) this.knownSpells;
     }
 }

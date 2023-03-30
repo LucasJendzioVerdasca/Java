@@ -71,7 +71,7 @@ public class Story {
         }
 
         public static void FirstActIntro() {
-
+                
         }
 
         public static void FirstActOutro() {
