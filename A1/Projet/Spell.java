@@ -1,4 +1,4 @@
- import java.util.ArrayList;
+import java.util.ArrayList;
     import java.util.List;
 
     public class Spell extends AbstractSpell {
@@ -39,8 +39,10 @@
         public void castSpellEffect(Ennemy ennemy){
             if (this.name == "Expelliarmus"){
                 ennemy.attack -= 5;
+                System.out.println("Le " + ennemy.name + " voit son attaque être diminuée.");
             }else if(this.name == "Stupefix"){
                 ennemy.stunt = true;
+                System.out.println("Le " + ennemy.name + " est étourdi.");
             }
         }
 
