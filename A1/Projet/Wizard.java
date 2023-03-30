@@ -4,6 +4,8 @@ public abstract class Wizard {
     public int maxHealth, currentHealth;
     public int magic, maxMagic;
     public int xp, level;
+    public List<Spell> knownSpells;
+    public boolean dodge;
 
     //Constructeur
     protected Wizard(String name, int maxHealth, int xp, int maxMagic, int magic) {
@@ -13,5 +15,7 @@ public abstract class Wizard {
         this.xp = xp;
         this.maxMagic = maxMagic;
         this.magic = magic;
+        this.knownSpells = new ArrayList<>();
+        this.dodge = false;
     }
 }
