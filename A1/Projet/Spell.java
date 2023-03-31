@@ -6,19 +6,16 @@ public class Spell extends AbstractSpell {
         super();
     }
 
-
     public static List<Spell> getAllSpells() {
         List<Spell> spells = new ArrayList<>();
         // Create spells and add them to the list
-        spells.add(new Spell("Wingardium Leviosa", LOW_MAGIC_COST, 1));
+        spells.add(new Spell("Wingardium Leviosa", LOW_MAGIC_COST, 5));
         spells.add(new Spell("Stupefix", LOW_MAGIC_COST, 5));
-        spells.add(new Spell("Expecto Patronum", MEDIUM_MAGIC_COST, 10));
+        spells.add(new Spell("Expecto Patronum", MEDIUM_MAGIC_COST, 5));
         spells.add(new Spell("Expelliarmus", MEDIUM_MAGIC_COST, 1));
         spells.add(new Spell("Sectumsempra", HIGH_MAGIC_COST, 50));
         return spells;
     }
-
-
         
     public void castSpellEffect(Ennemy ennemy){
         if (this.name == "Expelliarmus"){

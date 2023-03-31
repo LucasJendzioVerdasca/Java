@@ -1,13 +1,12 @@
 public class Player extends Wizard {
-    public int currentHealth;
     // Variables / Attributs d'un joueur
     public House house;
     int gold = 5;
     int attack = 1;
     int def = 4;
     // Constructeur
-    public Player() {
-        super("Joueur", 100, 100, 0, 100, 5);
+    public Player(String name, int maxHealth, int xp, int maxMagic, int magic, int power) {
+        super(name, 20, 0, 60, 60, 5);
     }
 
      //Methodes pour attack et def
@@ -32,11 +31,23 @@ public class Player extends Wizard {
         return this.maxHealth;
     }
 
+    public int getCurrentHealth() {
+        return this.currentHealth;
+    }
+
     public int getMaxMagic() {
         return this.maxMagic;
     }
 
+    public int getMagic() {
+        return this.magic;
+    }
+
     public boolean isalive() {
-        return this.currentHealth > 0;
+        if (currentHealth > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

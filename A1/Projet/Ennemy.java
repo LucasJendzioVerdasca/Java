@@ -1,5 +1,4 @@
 public class Ennemy {
-    
     public String name;
     int attack;
     int baseAttack;

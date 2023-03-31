@@ -22,12 +22,17 @@ public abstract class Wizard {
         this.dodge = false;
     }
 
-    //Knwon Spells ArrayList
     public void addSpell(Spell spell) {
         this.knownSpells.add(spell);
     }
     
+    int LOW_MAGIC_COST = 5;
+    int MEDIUM_MAGIC_COST = 10;
+    int HIGH_MAGIC_COST = 15;
+
     ArrayList<Spell> getKnownSpells() {
+        List <Spell> spells = Spell.getAllSpells();
+        spells.add(new Spell("Wingardium Leviosa", LOW_MAGIC_COST, 5));
         return (ArrayList<Spell>) this.knownSpells;
     }
 }

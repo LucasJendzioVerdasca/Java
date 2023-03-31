@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class GameLogic {
     static Scanner scanner = new Scanner(System.in);
 
-    static Player player;
+    Player player;
 
     public static boolean isRunning;
 
@@ -11,7 +11,7 @@ public class GameLogic {
     public static int chapter = 1;
 
     // méthode pour attendre une entrée de l'utilisateur
-    public static int readInt(String prompt, int userchoice) {
+    public static int readInt(String prompt, int userChoices) {
         int input;
         do {
             System.out.println(prompt);
@@ -19,9 +19,23 @@ public class GameLogic {
                 input = Integer.parseInt(scanner.nextLine());
             } catch (Exception e) {
                 input = -1;
-                System.out.println("Veuillez entrer un nombre");
+                System.out.println("Veuillez entrer un entier !");
             }
-        } while (input < 1 || input > userchoice);
+        } while (input < 1 || input > userChoices);
+        return input;
+    }
+
+    public static String readString(String prompt) {
+        String input;
+        do {
+            System.out.println(prompt);
+            try {
+                input = scanner.nextLine();
+            } catch (Exception e) {
+                input = "";
+                System.out.println("Veuillez entrer une réponse !");
+            }
+        } while (input == "");
         return input;
     }
 
@@ -52,7 +66,7 @@ public class GameLogic {
     }
 
     // Le début du jeu
-    public static void startGame() {
+    public void startGame() {
         clearConsole();
         printSeparator(40);
         printSeparator(30);
@@ -80,13 +94,14 @@ public class GameLogic {
                 nameSet = true;
             }
             // Création du personnage en lui donnant le nom entré
-            player = new Player();
+            player = new Player(name, 20, 0, 60, 60, 5);
+            name = player.name;
 
         } while (!nameSet);
 
         // L'intro du jeu
         Story.printIntro();
-        SortingHat.Sortinghat(player);
+        SortingHat.sortinghattest(player);
 
         // Is running pour confirmer que la partie se déroule bien
         isRunning = true;
@@ -96,7 +111,11 @@ public class GameLogic {
     }
 
     // La boucle de jeu
-    public static void checkAct() {
+    public void checkAct() {
+        if (player.xp >= 0 && player.xp < 100) {
+            chapter = 1;
+            Story.FirstActIntro();
+        }
         if (player.xp >= 100 && player.xp < 200) {
             chapter = 2;
             Story.FirstActOutro();
@@ -127,7 +146,7 @@ public class GameLogic {
     }
 
     // Méthode pour continuer l'aventure
-    public static void continueJourney() {
+    public void continueJourney() {
         clearConsole();
         printHeading("Vous continuez votre aventure");
         anythingToContinue();
@@ -136,7 +155,7 @@ public class GameLogic {
     }
 
     // Le magasin
-    public static void Shop() {
+    public void Shop() {
         int choice;
 
         System.out.println("Bienvenue dans la boutique !");
@@ -161,7 +180,7 @@ public class GameLogic {
         }
     }
 
-    public static void confirmPurchase(String item) {
+    public void confirmPurchase(String item) {
         int confirmation;
 
         System.out.println("Confirmer l'achat d'une " + item + " ?");
@@ -179,19 +198,19 @@ public class GameLogic {
     }
 
     // Méthode pour afficher les informations du joueur
-    public static void chracterInfo() {
+    public void chracterInfo() {
         clearConsole();
         printHeading("Informations du joueur");
         System.out.println("Nom : " + player.name);
         System.out.println("Vie : " + player.currentHealth + "/" + player.maxHealth);
         System.out.println("Magie : " + player.magic + "/" + player.maxMagic);
         System.out.println("XP : " + player.xp);
-        System.out.println("Thunasse" + player.gold + " pièces d'or");
+        System.out.println("Thunasse : " + player.gold + " pièces d'or");
         anythingToContinue();
     }
 
     // Méthode pour afficher le menu
-    public static void printMenu() {
+    public void printMenu() {
         clearConsole();
         printHeading("Menu");
         System.out.println("Choisis une option :");
@@ -201,7 +220,8 @@ public class GameLogic {
     }
 
     // La boucle principale du jeu
-    private static void gameLoop() {
+    private void gameLoop() {
+        System.out.println(isRunning + "\n");
         while (isRunning) {
             printMenu();
             int input = readInt("-> ", 5);
@@ -213,14 +233,14 @@ public class GameLogic {
                 Take_a_Rest();
             } else if (input == 4) {
                 Shop();
-            } else if (input == 5) {
+            } else {
                 isRunning = false;
             }
         }
     }
 
     // Méthode pour se soigner
-    public static void Take_a_Rest() {
+    public void Take_a_Rest() {
         clearConsole();
         printHeading("Vous vous reposez");
         player.currentHealth = player.maxHealth;
@@ -233,7 +253,7 @@ public class GameLogic {
     // methode pour la mort du jouer (à faire)
     public static void playerDied() {
         clearConsole();
-        printHeading("You died ... dommage frerot");
+        printHeading("You died ... Fin fréro, tu es cringe !");
         anythingToContinue();
         isRunning = false;
     }
@@ -242,12 +262,12 @@ public class GameLogic {
     /**
      * @param ennemy
      */
-    public static void BattlePlayerTurn(Ennemy ennemy) {
+    public void BattlePlayerTurn(Ennemy ennemy) {
         clearConsole();
         // On remet le booléen d'esquive à false
         player.dodge = false;
         printHeading(ennemy.name + "\nHP: " + ennemy.currentHealth + "/" + ennemy.maxHealth);
-        printHeading(player.name + "\nHP: " + player.currentHealth + "/" + ennemy.maxHealth + "\nMagic:" + player.magic
+        printHeading(player.name + "\nHP: " + player.currentHealth + "/" + player.maxHealth + "\nMagie:" + player.magic
                 + "/" + player.maxMagic);
         printSeparator(20);
         System.out.println("(1) Attaquer\n(2) Utiliser un sorts\n(3) Utiliser une potion\n(4) Esquiver");
@@ -342,7 +362,7 @@ public class GameLogic {
     }
 
     // methode pour le tour de l'ennemi
-    public static void BattleEnemyTurn(Ennemy ennemy) {
+    public void BattleEnemyTurn(Ennemy ennemy) {
         // L'ennemi ne joue que s'il n'est pas étourdi
         if (ennemy.stunt = false) {
             System.out.println("Le " + ennemy.name + " vous attaque!");
@@ -373,7 +393,7 @@ public class GameLogic {
     }
 
     // méthode pour dérouler les bataille
-    public static void Battle(Ennemy ennemy) {
+    public void Battle(Ennemy ennemy) {
         clearConsole();
         System.out.println("Un " + ennemy.name + " sauvage apparaît!");
         do {
