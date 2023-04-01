@@ -1,4 +1,5 @@
 package controller;
+
 public class Story {
         public static void printIntro() {               
                 // Introduction à l'histoire
@@ -106,8 +107,6 @@ public class Story {
                 System.out.println("Après le brouhaha des élèves en panique et les instructions du directeur nous ordonnant de rejoindre nos salles communes, j’ai suivi le préfet de ma maison. Quand du coin de l’œil j’ai observé deux élèves dont un élève à lunettes et l’enfant aux cheveux roux de la gare se diriger à l'opposé de nous. Intrigué(e), je les ai suivis jusque dans les toilettes des filles. Ils étaient face à face avec … LE TROLL !");
                 GameLogic.anythingToContinue();
                 System.out.println("Il avait déjà détruit les toilettes et avait le deuxième garçon sur ses épaules lorsque j’ai aperçu une jeune fille sous les lavabos. Pour aider ses camarades en détresse, l’enfant de la gare tenta d’utiliser « Wingardium Leviosa » sur le troll pour l’immobiliser mais il était bien trop lourd. J’ai alors eu l’idée de soulever des objets autour pour l’assommer.");
-                GameLogic.anythingToContinue();
-                GameLogic.clearConsole();
                 GameLogic.anythingToContinue();
                 GameLogic.clearConsole();
         }

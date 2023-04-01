@@ -6,7 +6,7 @@ public class Player extends Wizard {
     // Variables / Attributs d'un joueur
     public House house;
     public int gold = 5;
-    int attack = 1;
+    int attack = 4;
     int def = 4;
     // Constructeur
     public Player(String name, int maxHealth, int xp, int maxMagic, int magic, int power) {

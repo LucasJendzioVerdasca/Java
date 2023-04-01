@@ -105,7 +105,7 @@ public class GameLogic {
 
         // L'intro du jeu
         Story.printIntro();
-        SortingHat.sortinghattest(player);
+        SortingHat.Sortinghat(player);
 
         // Is running pour confirmer que la partie se déroule bien
         isRunning = true;
@@ -119,6 +119,9 @@ public class GameLogic {
         if (player.xp >= 0 && player.xp < 100) {
             chapter = 1;
             Story.FirstActIntro();
+            Ennemy Troll = new Ennemy("Troll", 5, 2, 0, 12);
+            Battle(Troll);
+            Story.FirstActOutro();
         }
         if (player.xp >= 100 && player.xp < 200) {
             chapter = 2;
@@ -268,123 +271,97 @@ public class GameLogic {
      */
     public void BattlePlayerTurn(Ennemy ennemy) {
         clearConsole();
-        // On remet le booléen d'esquive à false
         player.dodge = false;
-        printHeading(ennemy.name + "\nHP: " + ennemy.currentHealth + "/" + ennemy.maxHealth);
-        printHeading(player.name + "\nHP: " + player.currentHealth + "/" + player.maxHealth + "\nMagie:" + player.magic
-                + "/" + player.maxMagic);
-        printSeparator(20);
-        System.out.println("(1) Attaquer\n(2) Utiliser un sorts\n(3) Utiliser une potion\n(4) Esquiver");
+        displayHealthAndMagic(ennemy, player);
+    
+        System.out.println("(1) Attaquer\n(2) Utiliser un sort\n(3) Utiliser une potion\n(4) Esquiver");
         int input = readInt("-> ", 4);
-        // réagit en fonction des inputs du joueur
-        if (input == 1) {
-            // attaque basique
-            // calcule les dégâts infligés et subis
-            int dmg = player.attack() - ennemy.defend();
-            // Vérifie si les dégâts ne sont pas négatifs
-            if (dmg < 0) {
-                dmg = 0;
-            }
-            // Applique les dégâts
-            ennemy.currentHealth -= dmg;
-            // affiche le résultat
-            clearConsole();
-            printHeading("Vous attaquez le " + ennemy.name + " avec un sort basique.");
-            System.out.println("Vous avez infligé " + dmg + " points de dégâts au " + ennemy.name + ".");
-            anythingToContinue();
-            // Vérifie si l'ennemi meurt
-            if (!ennemy.isalive()) {
-                // le joueur gagne
-                clearConsole();
-                printHeading("Vous avez vaincu le " + ennemy.name + "!");
-                // ajouter systeme de recompense
-                anythingToContinue();
-            }
-        } else if (input == 2) {
-            // lancer un sort
-            clearConsole();
-            // On demande au joueur quel sort il souhaite lancer
-            System.out.println("Choisissez quel sort lancer.");
-            for (int i = 0; i < player.knownSpells.size(); i++) {
-                System.out.println("(" + i + ") \"" + player.knownSpells.get(i).getName() + "\" | Coût/Puissance:"
-                        + player.knownSpells.get(i).getMagicCost() + "/" + player.knownSpells.get(i).getPower());
-            }
-            int choice = readInt("-> ", player.knownSpells.size());
-            // On vérifie que le joueur à assez de magie disponible pour lancer le sort
-            if (player.magic < player.knownSpells.get(choice).getMagicCost()) {
-                System.out.println("Vous n'avez pas assez de magie pour lancer le sort");
-                anythingToContinue();
-                // si ce n'est pas le cas, on lui refais jouer son tour
-                BattlePlayerTurn(ennemy);
-                return;
-            }
-            // On calcule les dégats infligés
-            int dmgSpell = player.knownSpells.get(choice).getPower() - ennemy.def;
-            // On vérifie que les dégats sont positifs
-            if (dmgSpell < 0) {
-                dmgSpell = 0;
-            }
-            // On applique les dégats à l'ennemi et on paie le coût en magie
-            ennemy.currentHealth -= dmgSpell;
-            player.magic -= player.knownSpells.get(choice).getMagicCost();
-            // affiche le résultat
-            clearConsole();
-            printHeading("Vous lancez \"" + player.knownSpells.get(choice).getName() + "\" sur le " + ennemy.name);
-            System.out.println("Vous avez infligé " + dmgSpell + " points de dégâts au " + ennemy.name + ".");
-            anythingToContinue();
-            // Vérifie si l'ennemi meurt
-            if (ennemy.isalive()) {
-                // le joueur gagne
-                clearConsole();
-                printHeading("Vous avez vaincu le " + ennemy.name + "!");
-                // Les récompenses du joueur
-                System.out.println("Vous avez gagné 5 pièces d'or et 100 points d'expérience.");
-                player.gold += 5;
-                player.xp += 100;
-                anythingToContinue();
-            }
-            // On applique les effets du sort (étourdissement si stupefix et baisse
-            // d'attaque si expelliarmus)
-            player.knownSpells.get(choice).castSpellEffect(ennemy);
-            anythingToContinue();
-        } else if (input == 3) {
-            // use a potion
-            // faut implémenter
-        } else if (input == 4) {
-            // Esquive
-            clearConsole();
-            // Une probabilité de 35% d'esquiver
-            if (Math.random() < 0.35) {
-                printHeading("Vous vous concentrez afin d'esquiver la prochaine attaque du " + ennemy.name + ".");
-                player.dodge = true;
-                anythingToContinue();
-            } else {
-                printHeading("Vous essayez de prévoir la prochaine attaque du " + ennemy.name + " mais sans succés.");
-                anythingToContinue();
-            }
+    
+        switch (input) {
+            case 1:
+                handleBasicAttack(ennemy);
+                break;
+            case 2:
+                handleSpellAttack(ennemy);
+                break;
+            case 3:
+                // Implémenter l'utilisation de potion
+                break;
+            case 4:
+                handleDodge(ennemy);
+                break;
         }
     }
-
-    // methode pour le tour de l'ennemi
+    
+    private void displayHealthAndMagic(Ennemy ennemy, Player player) {
+        printHeading(ennemy.name + "\nHP: " + ennemy.currentHealth + "/" + ennemy.maxHealth);
+        printHeading(player.name + "\nHP: " + player.currentHealth + "/" + player.maxHealth + "\nMagie:" + player.magic + "/" + player.maxMagic);
+        printSeparator(20);
+    }
+    
+    private void handleBasicAttack(Ennemy ennemy) {
+        int dmg = Math.max(player.attack() - ennemy.defend(), 0);
+        ennemy.currentHealth -= dmg;
+        clearConsole();
+        printHeading("Vous attaquez le " + ennemy.name + " avec un sort basique.");
+        System.out.println("Vous avez infligé " + dmg + " points de dégâts au " + ennemy.name + ".");
+        anythingToContinue();
+        if (!ennemy.isalive()) {
+            handleEnemyDefeat(ennemy);
+        }
+    }
+    
+    private void handleSpellAttack(Ennemy ennemy) {
+        clearConsole();
+        int choice = chooseSpell(player);
+        if (player.magic < player.knownSpells.get(choice).getMagicCost()) {
+            System.out.println("Vous n'avez pas assez de magie pour lancer le sort");
+            anythingToContinue();
+            BattlePlayerTurn(ennemy);
+            return;
+        }
+        int dmgSpell = Math.max(player.knownSpells.get(choice).getPower() - ennemy.def, 0);
+        ennemy.currentHealth -= dmgSpell;
+        player.magic -= player.knownSpells.get(choice).getMagicCost();
+        clearConsole();
+        printHeading("Vous lancez \"" + player.knownSpells.get(choice).getName() + "\" sur le " + ennemy.name);
+        System.out.println("Vous avez infligé " + dmgSpell + " points de dégâts au " + ennemy.name + ".");
+        anythingToContinue();
+        if (!ennemy.isalive()) {
+            handleEnemyDefeat(ennemy);
+        }
+        player.knownSpells.get(choice).castSpellEffect(ennemy);
+        anythingToContinue();
+    }
+    
+    private int chooseSpell(Player player) {
+        System.out.println("Choisissez quel sort lancer.");
+        for (int i = 0; i < player.knownSpells.size(); i++) {
+            System.out.println("(" + i + ") \"" + player.knownSpells.get(i).getName() + "\" | Coût/Puissance:"
+                    + player.knownSpells.get(i).getMagicCost() + "/" + player.knownSpells.get(i).getPower());
+        }
+        return readInt("-> ", player.knownSpells.size());
+    }
+    
+    private void handleDodge(Ennemy ennemy) {
+        clearConsole();
+        if (Math.random() < 0.35) {
+            printHeading("Vous vous concentrez afin d'esquiver la prochaine attaque du " + ennemy.name + ".");
+            player.dodge = true;
+        } else {
+            printHeading("Vous essayez de prévoir la prochaine attaque du " + ennemy.name + " mais sans succès.");
+        }
+        anythingToContinue();
+    }
+    
     public void BattleEnemyTurn(Ennemy ennemy) {
-        // L'ennemi ne joue que s'il n'est pas étourdi
-        if (ennemy.stunt = false) {
+        if (!ennemy.stunt) {
             System.out.println("Le " + ennemy.name + " vous attaque!");
-            // On calcule les dégats que le monstre va infliger
-            int dmgTook = ennemy.attack() - player.defend();
-            // On vérifie que les dégats sont bien positifs et si le joueur esquive ou non
-            if (dmgTook < 0) {
-                dmgTook = 0;
-            }
-            if (player.dodge == true) {
-                System.out.println("Vous esquiver l'attaque de " + ennemy.name + ".");
-                dmgTook = 0;
-            }
-            // On applique les dégats
+            int dmgTook = player.dodge ? 0 : Math.max(ennemy.attack() - player.defend(), 0);
             player.currentHealth -= dmgTook;
             System.out.println("Le " + ennemy.name + " t'a infligé " + dmgTook + " points de dégâts.");
+            player.dodge = false;
             anythingToContinue();
-            // On vérifie si le joueur est mort
             if (!player.isalive()) {
                 playerDied();
             }
@@ -392,19 +369,28 @@ public class GameLogic {
             System.out.println("Le " + ennemy.name + " est étourdi, il n'a pas pu attaquer.");
             ennemy.stunt = false;
         }
-        // On remet l'attaque de l'ennemi à sa valeur normale
         ennemy.attack = ennemy.baseAttack;
     }
-
-    // méthode pour dérouler les bataille
+    
     public void Battle(Ennemy ennemy) {
         clearConsole();
         System.out.println("Un " + ennemy.name + " sauvage apparaît!");
+        anythingToContinue();
         do {
             BattlePlayerTurn(ennemy);
-            BattleEnemyTurn(ennemy);
+            if (ennemy.isalive()) { // Ajout de la vérification de la vie de l'ennemi
+                BattleEnemyTurn(ennemy);
+            }
         } while (player.currentHealth > 0 && ennemy.currentHealth > 0);
-        // ajouter systeme de recompense (ici ou lorsque l'ennemi meurt dans la méthode
-        // BattlePLayerTurn)
+    }
+    
+    
+    private void handleEnemyDefeat(Ennemy ennemy) {
+        clearConsole();
+        printHeading("Vous avez vaincu le " + ennemy.name + "!");
+        System.out.println("Vous avez gagné 5 pièces d'or et 100 points d'expérience.");
+        player.gold += 5;
+        player.xp += 100;
+        anythingToContinue();
     }
 }
