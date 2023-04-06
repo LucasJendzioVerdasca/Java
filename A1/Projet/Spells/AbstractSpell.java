@@ -1,8 +1,9 @@
 package Spells;
+
 public abstract class AbstractSpell {
     protected String name;
-    private int magicCost;
-    private int power;
+    public int magicCost;
+    public int power;
 
     // Constructeurs
     public AbstractSpell() {}

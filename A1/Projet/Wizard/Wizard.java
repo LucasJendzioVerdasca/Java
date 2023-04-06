@@ -14,7 +14,7 @@ public abstract class Wizard {
     public boolean dodge;
 
     //Constructeur
-    protected Wizard(String name, int maxHealth, int xp, int maxMagic, int magic, int power) {
+    protected Wizard(String name, int maxHealth, int xp, int maxMagic, int magic, int power, double d) {
         this.name = name;
         this.maxHealth = maxHealth;
         this.currentHealth = maxHealth;
@@ -25,17 +25,15 @@ public abstract class Wizard {
         this.dodge = false;
     }
 
-    public void addSpell(Spell spell) {
-        this.knownSpells.add(spell);
+    public void learnSpell(Spell newSpell) {
+        this.knownSpells.add(newSpell);
     }
     
     int LOW_MAGIC_COST = 5;
     int MEDIUM_MAGIC_COST = 10;
     int HIGH_MAGIC_COST = 15;
 
-    ArrayList<Spell> getKnownSpells() {
-        List <Spell> spells = Spell.getAllSpells();
-        spells.add(new Spell("Wingardium Leviosa", LOW_MAGIC_COST, 5));
-        return (ArrayList<Spell>) this.knownSpells;
+    public List<Spell> getKnownSpells() {
+        return this.knownSpells;
     }
 }

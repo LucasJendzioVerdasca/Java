@@ -3,11 +3,16 @@ package Spells;
 import java.util.ArrayList;
 import java.util.List;
 import Personnages.Ennemy;
-import Wizard.Wizard;
+import controller.GameLogic;
+
 
 public class Spell extends AbstractSpell {
+    public String name;
+
     public Spell(String name, int magicCost, int power) {
-        super();
+        this.name = name;
+        this.magicCost = magicCost;
+        this.power = power;
     }
 
     public static List<Spell> getAllSpells() {
@@ -29,25 +34,20 @@ public class Spell extends AbstractSpell {
             ennemy.stunt = true;
             System.out.println("Le " + ennemy.name + " est étourdi.");
         }
+        GameLogic.anythingToContinue();
     }
-
-    public List<Spell> learnSpell(Wizard wiz, Spell newSpell){
-        wiz.knownSpells.add(newSpell);
-        return wiz.knownSpells;
-    }
-
 
     public int getMagicCost() {
-        return 0;
+        return magicCost;
     }
 
 
     public int getPower() {
-        return 0;
+        return power;
     }
 
 
     public String getName() {
-        return null;
+        return name;
     }
 }
