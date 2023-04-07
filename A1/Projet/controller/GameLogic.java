@@ -135,31 +135,88 @@ public class GameLogic {
             // Création du Troll
             Ennemy Troll = new Ennemy("Troll", 5, 2, 0, 12);
             Battle(Troll);
+
             Story.FirstActOutro();
+
+            gameLoop();
         }
+
         if (player.xp >= 100 && player.xp < 200) {
             chapter = 2;
             Story.SecondActIntro();
 
+            // Aprrendre Accio pour le combat
+            List<Spell> allSpells = Spell.getAllSpells();
+            Spell Accio = allSpells.get(1);
+            player.learnSpell(Accio);
+
+            // Apprendre Protego pour le combat
+            Spell Protego = allSpells.get(2);
+            player.learnSpell(Protego);
+
+            // On équipe l'épée de Gryffondor
+            player.equipGryffindorSword();
+
+            // Création du Basilic
+            Ennemy basilic = new Ennemy("Basilic", 10, 30, 0, 30);
+            Battle(basilic);
+
             Story.SecondActOutro();
+
+            // On enlève l'épée de Gryffondor
+            player.hasGryffondorSword = false;
+
+            gameLoop();
         }
+
         if (player.xp >= 200 && player.xp < 300) {
             chapter = 3;
+
+            Story.ThirdActIntro();
+
+            // Apprendre Expecto Patronum pour le combat
+            List<Spell> allSpells = Spell.getAllSpells();
+            Spell Expecto_patronum = allSpells.get(3);
+            player.learnSpell(Expecto_patronum);
+
+            // Création du Dementor
+            Ennemy dementor = new Ennemy("Détraqueur", 10, 0, 0, 15);
+            Battle(dementor);
+
+            Story.ThirdAct();
+
+            // Création d'un autre dementor
+            Ennemy dementor2 = new Ennemy("Détraqueur", 10, 0, 0, 15);
+            Battle(dementor2);
+
+            Story.ThirdActOutro();
+
+            player.attack = 4; // On a réduit l'attaque lorsque le joueur joue face à un détraqueur, on la
+                               // rétablit donc à la fin
+            gameLoop();
         }
-        if (player.xp >= 300 && player.xp < 400) {
-            chapter = 4;
-        }
+
         if (player.xp >= 400 && player.xp < 500) {
-            chapter = 5;
+            chapter = 4;
+
+            gameLoop();
         }
         if (player.xp >= 500 && player.xp < 600) {
-            chapter = 6;
+            chapter = 5;
+
+            gameLoop();
         }
         if (player.xp >= 600 && player.xp < 700) {
+            chapter = 6;
+
+            gameLoop();
+        }
+        if (player.xp >= 700 && player.xp < 800) {
             chapter = 7;
 
+            gameLoop();
         }
-        if (player.xp >= 700) {
+        if (player.xp >= 800) {
             Story.SeventhActOutro();
         }
     }
@@ -203,7 +260,7 @@ public class GameLogic {
     public void confirmPurchaseHP(String item) {
         if (player.gold < 5) {
             System.out.println("Vous n'avez pas assez d'or pour acheter cette potion");
-        }else {
+        } else {
             int confirmation;
 
             System.out.println("Confirmer l'achat d'une potion de soin ?");
@@ -211,23 +268,23 @@ public class GameLogic {
             System.out.println("2. Non");
 
             confirmation = readInt("->", 2);
-            
-                if (confirmation == 1) {
-                    System.out.println("Vous avez acheté une potion de soin !");
-                    anythingToContinue();
-                    player.nbHpPotion += 1;    
-                    player.gold -= 5;
-                } else {
-                    System.out.println("Achat annulé.");
-                    anythingToContinue();
-                }
+
+            if (confirmation == 1) {
+                System.out.println("Vous avez acheté une potion de soin !");
+                anythingToContinue();
+                player.nbHpPotion += 1;
+                player.gold -= 5;
+            } else {
+                System.out.println("Achat annulé.");
+                anythingToContinue();
+            }
         }
     }
 
     public void confirmPurchaseMagic(String item) {
         if (player.gold < 5) {
             System.out.println("Vous n'avez pas assez d'or pour acheter cette potion");
-        }else {
+        } else {
             int confirmation;
 
             System.out.println("Confirmer l'achat d'une potion de magie ?");
@@ -235,10 +292,10 @@ public class GameLogic {
             System.out.println("2. Non");
 
             confirmation = readInt("->", 2);
-            
+
             if (confirmation == 1) {
                 System.out.println("Vous avez acheté une potion de magie !");
-                player.nbMagicPotion += 1;    
+                player.nbMagicPotion += 1;
                 player.gold -= 5;
                 anythingToContinue();
             } else {
@@ -314,7 +371,6 @@ public class GameLogic {
         } while (player.currentHealth > 0 && ennemy.currentHealth > 0);
     }
 
-
     // J'ai renommé displayHealthAndMagic en displayStatus pour une meilleure clarté
     private void displayStatus(Ennemy ennemy, Player player) {
         printHeading(ennemy.name + "\nHP: " + ennemy.currentHealth + "/" + ennemy.maxHealth);
@@ -353,11 +409,25 @@ public class GameLogic {
 
     // Méthode pour l'attaque de base
     private void handleBasicAttack(Ennemy ennemy) {
-        if (!player.attemptHit()) {
-            int dmg = Math.max(player.attack() - ennemy.defend(), 0);
+        if (player.attemptHit() == true) {
+            double damageMultiplier = 1;
+
+            if (ennemy.name.equals("Basilic")) {
+                if (player.hasGryffondorSword = true) {
+                    damageMultiplier = 15; // Multiplie les dégâts par 15 pour l'Épée de Griffondor
+                } else if (player.hasUsedAccio) {
+                    System.out.println(
+                            "Vous avez obtenu le croc du basilic ! \n Vos attaques de base percent maintenat sa peau !");
+                    damageMultiplier = 3; // Multiplie les dégâts par 3 pour le Croc du Basilic
+                } else if (ennemy.name.equals("Détraqueur")) {
+                    player.attack = 0;
+                }
+            }
+
+            int dmg = (int) Math.max(player.attack() * damageMultiplier - ennemy.defend(), 0);
             ennemy.currentHealth -= dmg;
             clearConsole();
-            printHeading("Vous attaquez le " + ennemy.name + " avec un sort basique.");
+            printHeading("Vous attaquez le " + ennemy.name + " avec une attaque basique.");
             System.out.println("Vous avez infligé " + dmg + " points de dégâts au " + ennemy.name + ".");
         } else {
             clearConsole();
@@ -368,7 +438,6 @@ public class GameLogic {
             handleEnemyDefeat(ennemy);
         }
     }
-    
 
     // Méthode pour choisir un sort
     private int chooseSpell(Player player) {
@@ -381,7 +450,6 @@ public class GameLogic {
         return choice;
     }
 
-    // Méthode pour lancer un sort
     private void handleSpellAttack(Ennemy ennemy) {
         clearConsole();
         int choice = chooseSpell(player);
@@ -395,19 +463,25 @@ public class GameLogic {
             return;
         }
 
-        if (!player.attemptHit()){
+        if (player.attemptHit() == true) {
             int dmgSpell = Math.max(chosenSpell.getPower() - ennemy.def, 0);
+
+            if (ennemy.name.equals("Détraqueur") && !chosenSpell.getName().equals("Expecto Patronum")) {
+                dmgSpell = 0; // Aucun dégât infligé au Dementaur si un autre sort que Expecto Patronum est
+                              // utilisé
+            }
+
             ennemy.currentHealth -= dmgSpell;
             player.magic -= chosenSpell.getMagicCost();
             clearConsole();
             printHeading("Vous lancez \"" + chosenSpell.getName() + "\" sur le " + ennemy.name);
             System.out.println("Vous avez infligé " + dmgSpell + " points de dégâts au " + ennemy.name + ".");
-            anythingToContinue();
             if (!ennemy.isalive()) {
+                anythingToContinue();
                 handleEnemyDefeat(ennemy);
-            }
-            else{
-            chosenSpell.castSpellEffect(ennemy);
+            } else {
+                chosenSpell.castSpellEffect(ennemy);
+                chosenSpell.castSpellEffect(player);
             }
         } else {
             clearConsole();
@@ -423,23 +497,24 @@ public class GameLogic {
             anythingToContinue();
             BattlePlayerTurn(ennemy);
             return;
-        }else{
+        } else {
             displayStatus(ennemy, player);
-            System.out.println("Quel potion voulez-vous utiliser ?\n (1) Potion de vie : x"+ player.nbHpPotion +"\n (2) Potion de magie : x"+ player.nbMagicPotion + " \n (3) Annuler");
+            System.out.println("Quel potion voulez-vous utiliser ?\n (1) Potion de vie : x" + player.nbHpPotion
+                    + "\n (2) Potion de magie : x" + player.nbMagicPotion + " \n (3) Annuler");
             int input = readInt("-> ", 3);
-            if (input == 1){
+            if (input == 1) {
                 Potion.useHp(player);
             }
-            if (input == 2){
+            if (input == 2) {
                 Potion.useMagic(player);
             }
-            if (input == 3){
+            if (input == 3) {
                 BattlePlayerTurn(ennemy);
             }
         }
     }
 
-    // Méthode pour esquiver    
+    // Méthode pour esquiver
     private void handleDodge(Ennemy ennemy) {
         clearConsole();
         if (Math.random() < 0.35) {
@@ -470,12 +545,13 @@ public class GameLogic {
         ennemy.attack = ennemy.baseAttack;
     }
 
-    //Méthode pour la mort du jouer
+    // Méthode pour la mort du jouer
     public static void playerDied() {
         clearConsole();
         printHeading("You died ... Fin fréro, tu es cringe !");
         anythingToContinue();
         isRunning = false;
+        System.exit(chapter);
     }
 
     // Méthode pour la victoire
@@ -485,6 +561,7 @@ public class GameLogic {
         System.out.println("Vous avez gagné 5 pièces d'or et 100 points d'expérience.");
         player.gold += 5;
         player.xp += 100;
+        player.def = -5 * player.protegoUse;
         anythingToContinue();
     }
 }

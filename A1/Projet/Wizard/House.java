@@ -23,6 +23,7 @@ public enum House {
     public static void gryffindor(Player player) {
         player.def += 2;
         player.maxHealth += 10;
+        player.currentHealth += 10;
     }
 
     //Méthode si le joueur est Serpentard

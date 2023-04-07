@@ -35,6 +35,7 @@ public class Potion {
                 if (player.house == House.HUFFLEPUFF) {
                     player.magic = player.maxMagic;
                 }
+                
                 System.out.println("La magie a été restaurée !");
                 GameLogic.anythingToContinue();
         }

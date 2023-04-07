@@ -90,20 +90,23 @@ public class SortingHat {
         int pointsMax = Math.max(Math.max(gryffindor, ravenclaw), Math.max(hufflepuff, slytherin));
         if (gryffindor == pointsMax) {
             house = House.GRYFFINDOR;
-            System.out.println("Vous êtes courageux(se) et téméraire. Toujours en quête d’aventure et d’exploits à réaliser, c’est votre capacité à prendre des coups et toujours vous relever qui fait la force de votre maison. Vous serez … GRYFFONDOR !!!");
+            System.out.println("Vous êtes courageux(se) et téméraire. Toujours en quête d'aventure et d'exploits à réaliser, c'est votre capacité à prendre des coups et toujours vous relever qui fait la force de votre maison. Vous serez … GRYFFONDOR !!!");
             System.out.println("Vous gagnez de la Résistance.");
+            House.gryffindor(player);
         } else if (ravenclaw == pointsMax) {
             house = House.RAVENCLAW;
-            System.out.println("Votre sagesse et votre intelligence ne sont plus à prouver. Pour vous, rien n’est pire que l’ignorance. Lors de combat, votre maison est la plus précise de toutes. Vous serez … SERDAIGLE !!!");
+            System.out.println("Votre sagesse et votre intelligence ne sont plus à prouver. Pour vous, rien n'est pire que l'ignorance. Lors de combat, votre maison est la plus précise de toutes. Vous serez … SERDAIGLE !!!");
             System.out.println("Vous gagnez de la précision.");
+            House.ravenclaw(player);
         } else if (hufflepuff == pointsMax) {
             house = House.HUFFLEPUFF;
-            System.out.println("Dans cette maison, nul besoin d’être inquiet. Si vous vous faites des amis, ils vous seront fidèles et loyaux pour toujours. Amoureux(se) des plantes et des animaux, ils savent rendre vos sentiments par la fabrication de potions plus efficaces. Vous serez … POUFSOUFFLE !!!");
+            System.out.println("Dans cette maison, nul besoin d'être inquiet. Si vous vous faites des amis, ils vous seront fidèles et loyaux pour toujours. Amoureux(se) des plantes et des animaux, ils savent rendre vos sentiments par la fabrication de potions plus efficaces. Vous serez … POUFSOUFFLE !!!");
             System.out.println("Vous gagnez de l'efficacité.");
         } else if (slytherin == pointsMax) {
             house = House.SLYTHERIN;
-            System.out.println("Dans cette maison, vous apprendrez beaucoup et serez amené à faire de grandes choses. Toujours à la recherche de sortilèges et artefacts 	magiques redoutables, c’est la puissance qui fait de votre maison 	ce qu’elle est aujourd’hui. Vous serez … SERPENTARD !!!");
+            System.out.println("Dans cette maison, vous apprendrez beaucoup et serez amené à faire de grandes choses. Toujours à la recherche de sortilèges et artefacts 	magiques redoutables, c'est la puissance qui fait de votre maison ce qu'elle est aujourd'hui. Vous serez … SERPENTARD !!!");
             System.out.println("Vous gagnez de la puissance.");
+            House.slytherin(player);
         }
         player.setHouse(house);
         GameLogic.anythingToContinue();

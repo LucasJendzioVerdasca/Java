@@ -1,8 +1,8 @@
 package Personnages;
-import java.util.Random;
 
 import Wizard.House;
 import Wizard.Wizard;
+import controller.GameLogic;
 
 public class Player extends Wizard {
     // Variables / Attributs d'un joueur
@@ -14,6 +14,10 @@ public class Player extends Wizard {
     public int nbMagicPotion = 0;
     public int power;
     public double hitchance;
+    public int protegoUse = 0;
+    public boolean hasUsedAccio = false;
+    public boolean hasGryffondorSword = false;
+
     // Constructeur
     public Player(String name, int maxHealth, int xp, int maxMagic, int magic, int power, double hitchance) {
         super(name, 20, 0, 60, 60, 5, 0.8);
@@ -28,10 +32,11 @@ public class Player extends Wizard {
         return (int) (Math.random()*(this.def + 3));
     }
 
-    private Random random = new Random(); // Ajoutez cet attribut à la classe Player
-
     public boolean attemptHit() {
-        return random.nextDouble() <= hitchance;
+        if(Math.random() > hitchance  || hitchance == 1)
+            return true;
+        else
+            return false;
     }
 
     // getters/setters
@@ -77,5 +82,23 @@ public class Player extends Wizard {
 
     public boolean noPotions(){
         return (this.nbHpPotion == 0 && this.nbMagicPotion == 0);
+    }
+
+    public boolean hasUsedAccio(){
+        return false;
+    }
+
+    public void setHasGryffondorSword(boolean hasGryffondorSword) {
+        this.hasGryffondorSword = hasGryffondorSword;
+    }
+
+    public void equipGryffindorSword() {
+        if (house.equals(House.GRYFFINDOR)) {
+            System.out.println("Vous entendez au loin le bruit de l'oiseau de feu. Il est revenu avec … le choixpeau ? Il tourne quelques instants autour de votre tête et lâcha l'objet. En retombant, vous entendez un bruit métallique. vous apercevez alors le pommeau d'une épée dans le chapeau et décidez de profiter de la diversion du phénix pour l'attraper ");
+            GameLogic.anythingToContinue();
+            System.out.println("Vous obtenez l'épée de Griffondor. \n Votre attaque augmente, utilisez l'attaque de base pour l'utiliser.");
+            setHasGryffondorSword(true);
+            GameLogic.anythingToContinue();
+        }
     }
 }
