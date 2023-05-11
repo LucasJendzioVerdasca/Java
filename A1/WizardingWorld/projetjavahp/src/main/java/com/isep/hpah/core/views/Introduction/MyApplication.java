@@ -1,4 +1,4 @@
-package com.isep.hpah.core.views.JAVAFXexample;
+package com.isep.hpah.core.views.Introduction;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -7,13 +7,13 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class HelloApplication extends Application {
+public class MyApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(
-                HelloApplication.class.getResource("/com/isep/hpah/core/JavaFXexample/hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Hello!");
+                MyApplication.class.getResource("/com/isep/hpah/core/scenes/Introduction/Intro.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 590, 285);
+        stage.setTitle("Harry Potter at Home !");
         stage.setScene(scene);
         stage.show();
     }
