@@ -168,7 +168,7 @@ Permettre de jouer plusieurs manches :
 * Choix entre **passer ou annoncer un contrat**
 * Sélection du **roi à appeler**
 * Sélection des **cartes à écarter**
-* (Plus tard) Sélection des **cartes à jouer**
+* Sélection des **cartes à jouer**
 
 ---
 
@@ -177,6 +177,7 @@ Permettre de jouer plusieurs manches :
 * Système de points basé sur le contrat et les bouts
 * Score cumulé par joueur
 * Stockage dans une classe `ScoreBoard`
+
 
 
 
