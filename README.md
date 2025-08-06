@@ -17,10 +17,6 @@ Meanwhile, the compiled output files will be generated in the `bin` folder by de
 
 The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
 
-SPECS TAROT 
-
-Une erreur technique m’a empêché de générer le fichier Word pour toi, mais je peux te fournir immédiatement **le contenu complet prêt à copier-coller dans Word**, Google Docs ou ton éditeur préféré.
-
 ---
 
 ## 📄 **Spécifications Fonctionnelles — Jeu de Tarot**
@@ -181,5 +177,6 @@ Permettre de jouer plusieurs manches :
 * Système de points basé sur le contrat et les bouts
 * Score cumulé par joueur
 * Stockage dans une classe `ScoreBoard`
+
 
 
